@@ -201,14 +201,14 @@ export default function Technology() {
         </div>
       </div>
 
-      <div className="relative z-10 wrap pt-6 md:pt-10 pb-10 sm:pb-0 sm:translate-y-[30%]">
-        <Reveal className="relative mx-auto max-w-[900px]">
-          <div className="absolute -top-[2px] right-[18%] z-10 hidden sm:block">
+      <div className="relative z-10 wrap pt-6 md:pt-10 pb-12 sm:pb-0 sm:translate-y-[30%]">
+        <Reveal className="relative mx-auto max-w-[1180px]">
+          <div className="absolute -top-[2px] right-[14%] z-10 hidden sm:block">
             <Chevrons count={3} color="bg-ink" size="lg" dir="left" />
           </div>
-          <div className="clip-tl-16 sm:clip-tl-28 bg-white text-ink shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
-            <div className="grid md:grid-cols-[42%_1fr]">
-              <div className="relative overflow-hidden bg-panel hatch grid place-items-center min-h-[180px] sm:min-h-[240px]">
+          <div className="clip-tl-16 sm:clip-tl-28 md:clip-tl-36 bg-white text-ink shadow-[0_24px_70px_rgba(0,0,0,0.4)]">
+            <div className="grid md:grid-cols-[44%_1fr] lg:grid-cols-[46%_1fr]">
+              <div className="relative overflow-hidden bg-panel hatch grid place-items-center min-h-[240px] sm:min-h-[320px] md:min-h-[380px] lg:min-h-[420px]">
                 <AnimatePresence mode="wait">
                   <motion.img
                     key={p.image}
@@ -217,7 +217,7 @@ export default function Technology() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className={`h-full min-h-[180px] sm:min-h-[240px] w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]`}
+                    className="h-full min-h-[240px] sm:min-h-[320px] md:min-h-[380px] lg:min-h-[420px] w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
                     whileHover={{ scale: 1.06 }}
                     transition={{ duration: 0.8, ease: EASE }}
                     loading="lazy"
@@ -225,7 +225,7 @@ export default function Technology() {
                   />
                 </AnimatePresence>
               </div>
-              <div className="min-w-0 px-4 py-5 sm:px-6 sm:py-6 md:px-8 md:py-7">
+              <div className="min-w-0 px-5 py-6 sm:px-8 sm:py-8 md:px-10 md:py-9 lg:px-12 lg:py-10">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={p.id}
@@ -233,19 +233,27 @@ export default function Technology() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
                   >
-                    <h3 className="text-tech text-[14px] md:text-[17px] font-bold text-ink leading-snug">{p.name}</h3>
-                    <ul className="mt-3 sm:mt-4">
+                    <div className={`text-tech text-[11px] sm:text-[12px] font-bold tracking-[0.12em] ${isGold ? 'text-gold' : 'text-brand'}`}>
+                      Spec Sheet
+                    </div>
+                    <h3 className="mt-2 text-tech text-[18px] sm:text-[22px] md:text-[26px] lg:text-[28px] font-bold text-ink leading-[1.15]">
+                      {p.name}
+                    </h3>
+                    <div className="relative mt-3 h-px w-full bg-ink/10">
+                      <span className={`absolute left-0 top-[-1px] h-[3px] w-14 ${isGold ? 'bg-gold' : 'bg-brand'}`} />
+                    </div>
+                    <ul className="mt-4 sm:mt-5">
                       {p.table.map(([k, v], i) => (
                         <motion.li
                           key={k}
                           initial={{ opacity: 0, x: 10 }}
                           whileInView={{ opacity: 1, x: 0 }}
                           viewport={{ once: true }}
-                          transition={{ delay: 0.05 * i }}
-                          className="flex items-start justify-between gap-3 border-b border-line py-[7px] text-tech-sm text-[9px] sm:gap-4 sm:text-[9.5px]"
+                          transition={{ delay: 0.04 * i }}
+                          className="flex items-start justify-between gap-4 border-b border-line py-2.5 sm:gap-6 sm:py-3 text-tech-sm text-[11px] sm:text-[12.5px] md:text-[13px]"
                         >
-                          <span className="shrink-0 text-muted">{k}</span>
-                          <span className="min-w-0 text-right font-semibold text-ink break-words">{v}</span>
+                          <span className="shrink-0 font-semibold uppercase tracking-[0.06em] text-muted">{k}</span>
+                          <span className="min-w-0 text-right font-bold text-ink break-words leading-snug">{v}</span>
                         </motion.li>
                       ))}
                     </ul>
