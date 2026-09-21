@@ -1,0 +1,329 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Rajdhani", ui-sans-serif, system-ui, sans-serif;
+
+  --color-brand: #ee1c2e;
+  --color-brand-dark: #c4121f;
+  --color-blue: #1d3fb8;
+  --color-gold: #f2b233;
+  --color-ink: #0a0a0a;
+  --color-ink-2: #161616;
+  --color-panel: #efefef;
+  --color-panel-2: #e6e6e6;
+  --color-line: #d6d6d6;
+  --color-muted: #6b6b6b;
+  --color-frame: #d9d9d9;
+
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+  --default-transition-duration: 500ms;
+  --default-transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  :root {
+    --wrap-max: 1400px;
+    --wrap-pad: 1.15rem;
+  }
+  @media (min-width: 640px) {
+    :root {
+      --wrap-pad: 2.25rem;
+    }
+  }
+  @media (min-width: 768px) {
+    :root {
+      --wrap-pad: 3rem;
+    }
+  }
+  html {
+    scroll-behavior: auto;
+    overflow-x: clip;
+  }
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  body {
+    @apply font-display bg-white text-ink antialiased;
+    margin: 0;
+    overflow-x: clip;
+    font-feature-settings: "ss01";
+  }
+  ::selection {
+    @apply bg-brand text-white;
+  }
+  /* asset protection: no drag-out / long-press save on images & 3D canvas */
+  img,
+  canvas,
+  video {
+    -webkit-user-drag: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+  }
+}
+
+/* Shared content container — every section and the header use this so all edges align */
+@utility wrap {
+  width: 100%;
+  max-width: var(--wrap-max);
+  margin-inline: auto;
+  padding-inline: var(--wrap-pad);
+}
+@utility clip-tr-* {
+  clip-path: polygon(
+    0 0,
+    calc(100% - --value(integer) * 1px) 0,
+    100% calc(--value(integer) * 1px),
+    100% 100%,
+    0 100%
+  );
+}
+@utility clip-tl-* {
+  clip-path: polygon(
+    calc(--value(integer) * 1px) 0,
+    100% 0,
+    100% 100%,
+    0 100%,
+    0 calc(--value(integer) * 1px)
+  );
+}
+@utility clip-br-* {
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - --value(integer) * 1px),
+    calc(100% - --value(integer) * 1px) 100%,
+    0 100%
+  );
+}
+@utility clip-bl-* {
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 100%,
+    calc(--value(integer) * 1px) 100%,
+    0 calc(100% - --value(integer) * 1px)
+  );
+}
+/* opposite corners: top-right + bottom-left (Skyvanta button / card shape) */
+@utility clip-diag-* {
+  clip-path: polygon(
+    0 0,
+    calc(100% - --value(integer) * 1px) 0,
+    100% calc(--value(integer) * 1px),
+    100% 100%,
+    calc(--value(integer) * 1px) 100%,
+    0 calc(100% - --value(integer) * 1px)
+  );
+}
+/* top-left + bottom-right */
+@utility clip-diag2-* {
+  clip-path: polygon(
+    calc(--value(integer) * 1px) 0,
+    100% 0,
+    100% calc(100% - --value(integer) * 1px),
+    calc(100% - --value(integer) * 1px) 100%,
+    0 100%,
+    0 calc(--value(integer) * 1px)
+  );
+}
+/* HUD frame: notched corners on all four sides (gallery frames) */
+@utility clip-hud {
+  clip-path: polygon(
+    3% 0,
+    97% 0,
+    100% 3%,
+    100% 42%,
+    98.4% 46%,
+    98.4% 54%,
+    100% 58%,
+    100% 97%,
+    97% 100%,
+    3% 100%,
+    0 97%,
+    0 58%,
+    1.6% 54%,
+    1.6% 46%,
+    0 42%,
+    0 3%
+  );
+}
+
+@utility hatch {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(0, 0, 0, 0.055) 0 1px,
+    transparent 1px 9px
+  );
+}
+@utility hatch-dark {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.05) 0 1px,
+    transparent 1px 9px
+  );
+}
+
+/* red radial ray burst behind the 3D can */
+@utility ray-burst {
+  background: repeating-conic-gradient(
+    from 0deg,
+    rgba(238, 28, 46, 0.9) 0deg 0.45deg,
+    transparent 0.45deg 3.2deg
+  );
+  -webkit-mask: radial-gradient(
+    circle,
+    transparent 0 36%,
+    #000 44%,
+    #000 60%,
+    transparent 78%
+  );
+  mask: radial-gradient(
+    circle,
+    transparent 0 36%,
+    #000 44%,
+    #000 60%,
+    transparent 78%
+  );
+}
+
+/* gold radial ray burst behind the 5W-40 bottle */
+@utility ray-burst-gold {
+  background: repeating-conic-gradient(
+    from 0deg,
+    rgba(242, 178, 51, 0.95) 0deg 0.45deg,
+    transparent 0.45deg 3.2deg
+  );
+  -webkit-mask: radial-gradient(
+    circle,
+    transparent 0 36%,
+    #000 44%,
+    #000 60%,
+    transparent 78%
+  );
+  mask: radial-gradient(
+    circle,
+    transparent 0 36%,
+    #000 44%,
+    #000 60%,
+    transparent 78%
+  );
+}
+
+@utility text-tech {
+  @apply uppercase tracking-[0.06em] font-medium;
+}
+@utility text-tech-sm {
+  @apply uppercase tracking-[0.08em] text-[11px] leading-[1.55] font-medium;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ---------- marquee (win-portfolio parity) ---------- */
+@keyframes marquee-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-right {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-left var(--marquee-duration, 40s) linear infinite;
+}
+
+.marquee-track-reverse {
+  animation-name: marquee-right;
+}
+
+.marquee-paused:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.marquee-mask {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+}
+
+@keyframes scroll-wheel {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  70% {
+    transform: translateY(6px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+}
+
+.scroll-mouse {
+  display: flex;
+  height: 22px;
+  width: 14px;
+  align-items: flex-start;
+  justify-content: center;
+  border: 1.5px solid currentColor;
+  border-radius: 999px;
+  padding-top: 4px;
+}
+
+.scroll-mouse-wheel {
+  display: block;
+  height: 4px;
+  width: 1.5px;
+  border-radius: 999px;
+  background: currentColor;
+  animation: scroll-wheel 1.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .marquee-track,
+  .marquee-track-reverse {
+    animation: none !important;
+  }
+}
