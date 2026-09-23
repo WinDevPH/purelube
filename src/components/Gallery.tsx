@@ -4,6 +4,7 @@ import SectionHeader from './ui/SectionHeader'
 import Reveal, { EASE } from './ui/Reveal'
 import { setPageScrollLocked } from '../hooks/useLenis'
 import { GALLERY, RIDES } from '../data/content'
+import { COMPANY } from '../data/company'
 
 function TripleArrow({ dir, onClick, disabled }: { dir: 'prev' | 'next'; onClick: () => void; disabled?: boolean }) {
   return (
@@ -140,155 +141,83 @@ function RidersCarousel() {
 }
 
 function FacilitiesBlock() {
-  const [active, setActive] = useState(0)
   const [lightbox, setLightbox] = useState<number | null>(null)
-  const featured = GALLERY[0]
-  const secondary = GALLERY[1]
-  const current = GALLERY[active]
+  const office = COMPANY.office
+  const cards = [
+    {
+      ...GALLERY[0],
+      kicker: 'Headquarters',
+      line: 'Am Haupttor, Geb. 4609',
+      sub: office.line2,
+    },
+    {
+      ...GALLERY[1],
+      kicker: 'Production',
+      line: 'Precision blending & logistics',
+      sub: office.line2,
+    },
+  ]
 
   useEffect(() => {
     setPageScrollLocked(lightbox !== null)
     return () => setPageScrollLocked(false)
   }, [lightbox])
 
-  return (
-    <div className="relative mt-14 md:mt-20 overflow-x-clip bg-[#f4f6f8] pt-10 md:pt-14 pb-2">
-      <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-[42%] bg-gradient-to-b from-[#c8ddf0]/55 via-[#e8eef4]/40 to-transparent"
-        aria-hidden
-      />
+  useEffect(() => {
+    if (lightbox === null) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setLightbox(null)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [lightbox])
 
+  return (
+    <div className="relative mt-14 md:mt-20 overflow-x-clip bg-panel hatch pt-10 md:pt-14 pb-12 md:pb-16">
       <div className="relative wrap">
         <SectionHeader title={['PureLube', 'Facilities']} label="Our Buildings" />
         <Reveal delay={0.15}>
-          <p className="mt-5 max-w-[420px] text-[13px] sm:text-[14px] font-medium leading-relaxed text-ink/65">
+          <p className="mt-5 max-w-[420px] text-[13px] sm:text-[14px] leading-relaxed text-muted">
             Clean German engineering, from headquarters to production — the PureLube facilities behind every
             Platinum grade.
           </p>
         </Reveal>
 
-        <div className="mt-8 grid gap-3 sm:mt-10 sm:gap-4 lg:grid-cols-12 lg:gap-5">
-          <Reveal className="lg:col-span-8">
-            <button
-              type="button"
-              onClick={() => {
-                setActive(0)
-                setLightbox(0)
-              }}
-              className="group relative block w-full overflow-hidden bg-white text-left shadow-[0_1px_0_rgba(15,23,42,0.06),0_18px_50px_rgba(15,23,42,0.08)] transition-transform duration-500 hover:-translate-y-0.5 touch-manipulation"
-            >
-              <div className="relative aspect-[16/11] sm:aspect-[16/10] overflow-hidden">
-                <img
-                  src={featured.src}
-                  alt={featured.caption}
-                  className="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03]"
-                  draggable={false}
-                  loading="lazy"
-                />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-transparent" />
-                <div className="absolute left-0 top-0 h-full w-[3px] bg-brand" />
-                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-7">
-                  <div className="text-tech text-[13px] sm:text-[14px] font-bold tracking-[0.16em] text-white/70">
-                    01 · Facility
-                  </div>
-                  <div className="mt-1 text-[22px] sm:text-[30px] md:text-[34px] font-bold uppercase leading-[0.98] text-white">
-                    {featured.tag}
-                  </div>
-                  <div className="mt-1.5 max-w-[36ch] text-[12px] sm:text-[13px] font-medium text-white/75">
-                    {featured.caption}
-                  </div>
-                </div>
-              </div>
-            </button>
-          </Reveal>
-
-          <div className="grid gap-3 sm:gap-4 lg:col-span-4 lg:grid-rows-[1fr_auto]">
-            <Reveal delay={0.1}>
+        <div className="mt-8 grid gap-4 sm:mt-10 lg:grid-cols-2 lg:gap-5">
+          {cards.map((g, i) => (
+            <Reveal key={g.src} delay={0.08 * i}>
               <button
                 type="button"
-                onClick={() => {
-                  setActive(1)
-                  setLightbox(1)
-                }}
-                className="group relative block h-full min-h-[220px] w-full overflow-hidden bg-white text-left shadow-[0_1px_0_rgba(15,23,42,0.06),0_18px_50px_rgba(15,23,42,0.08)] transition-transform duration-500 hover:-translate-y-0.5 touch-manipulation lg:min-h-0"
+                onClick={() => setLightbox(i)}
+                className="group relative block w-full overflow-hidden clip-diag-10 sm:clip-diag-16 border border-line bg-ink text-left shadow-[0_8px_24px_rgba(0,0,0,0.06)] transition-transform duration-500 hover:-translate-y-0.5 touch-manipulation"
               >
-                <div className="relative h-full min-h-[220px] aspect-[4/5] sm:aspect-[5/4] lg:aspect-auto lg:h-full overflow-hidden">
+                <div className="relative aspect-[16/11] overflow-hidden bg-ink">
                   <img
-                    src={secondary.src}
-                    alt={secondary.caption}
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03]"
+                    src={g.src}
+                    alt={g.caption}
+                    className="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
                     draggable={false}
                     loading="lazy"
                   />
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/75 via-transparent to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5">
-                    <div className="text-tech text-[13px] font-bold tracking-[0.14em] text-white/65">
-                      02 · Facility
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-transparent" />
+                  <div className="pointer-events-none absolute left-3 top-3 z-10 clip-diag-6 bg-ink px-2.5 py-1.5 text-tech text-[11px] font-bold tracking-[0.14em] text-white sm:left-4 sm:top-4 sm:px-3 sm:text-[12px]">
+                    {String(i + 1).padStart(2, '0')} · Facility
+                  </div>
+                  <div className="absolute inset-x-3 bottom-3 z-10 flex items-end justify-between gap-3 sm:inset-x-4 sm:bottom-4">
+                    <div className="min-w-0 clip-diag-6 bg-white/95 px-3 py-2.5 shadow-[0_8px_20px_rgba(0,0,0,0.12)] sm:px-3.5">
+                      <div className="text-tech text-[10px] font-bold tracking-[0.16em] text-brand">{g.kicker}</div>
+                      <div className="mt-0.5 truncate text-[12px] font-semibold text-ink sm:text-[13px]">{g.line}</div>
+                      <div className="text-[11px] text-muted">{g.sub}</div>
                     </div>
-                    <div className="mt-1 text-[18px] sm:text-[20px] font-bold uppercase leading-tight text-white">
-                      {secondary.tag}
-                    </div>
-                    <div className="mt-1 text-[14px] font-medium text-white/70 leading-snug">
-                      {secondary.caption}
-                    </div>
+                    <span className="shrink-0 clip-diag-6 bg-brand px-3 py-2.5 text-tech text-[11px] font-bold whitespace-nowrap text-white transition-colors group-hover:bg-brand-dark sm:px-3.5 sm:text-[12px]">
+                      View ↗
+                    </span>
                   </div>
                 </div>
               </button>
             </Reveal>
-
-            <Reveal delay={0.18}>
-              <div className="grid grid-cols-2 gap-px overflow-hidden border border-[#d7dde5] bg-[#d7dde5]">
-                {[
-                  { k: 'Origin', v: 'Germany' },
-                  { k: 'Focus', v: 'HQ · Plant' },
-                  { k: 'Skyline', v: 'Modern' },
-                  { k: 'Brand', v: 'PureLube' },
-                ].map((item) => (
-                  <div key={item.k} className="bg-[#f4f6f8] px-3 py-3.5 sm:px-4 sm:py-4">
-                    <div className="text-tech text-[12px] font-semibold tracking-[0.12em] text-muted">{item.k}</div>
-                    <div className="mt-1 text-tech text-[12px] sm:text-[13px] font-bold text-ink">{item.v}</div>
-                  </div>
-                ))}
-              </div>
-            </Reveal>
-          </div>
-        </div>
-
-        <Reveal delay={0.2} className="mt-5 grid grid-cols-2 gap-2 sm:mt-6 sm:flex sm:flex-wrap">
-          {GALLERY.map((g, i) => (
-            <button
-              key={g.src}
-              type="button"
-              onClick={() => setActive(i)}
-              className={`relative min-h-12 w-full sm:min-h-11 sm:w-auto clip-diag-6 px-3 py-2.5 text-tech text-[12px] sm:text-[14px] font-bold tracking-[0.06em] sm:tracking-[0.08em] transition-all duration-500 touch-manipulation ${
-                active === i
-                  ? 'bg-ink text-white'
-                  : 'bg-white text-ink/70 hover:bg-ink hover:text-white border border-[#d7dde5]'
-              }`}
-            >
-              <span className="sm:hidden">{String(i + 1).padStart(2, '0')} · {i === 0 ? 'HQ' : 'Plant'}</span>
-              <span className="hidden sm:inline">{String(i + 1).padStart(2, '0')} · {g.tag}</span>
-            </button>
           ))}
-          <button
-            type="button"
-            onClick={() => setLightbox(active)}
-            className="col-span-2 min-h-12 w-full sm:col-auto sm:min-h-11 sm:w-auto clip-diag-6 bg-brand px-5 py-2.5 text-tech text-[13px] sm:text-[14px] font-bold text-white tracking-[0.08em] transition-transform duration-500 hover:scale-[1.02] touch-manipulation"
-          >
-            View Full Photo
-          </button>
-        </Reveal>
-
-        <Reveal delay={0.25} className="mt-4 border border-[#d7dde5] bg-white px-4 py-3.5 sm:px-5">
-          <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-            <div>
-              <span className="text-tech text-[13px] font-bold tracking-[0.14em] text-brand">Selected</span>
-              <span className="mx-2 text-ink/20">·</span>
-              <span className="text-tech text-[12px] sm:text-[13px] font-bold text-ink">{current.tag}</span>
-            </div>
-            <p className="text-[12px] font-medium text-ink/60">{current.caption}</p>
-          </div>
-        </Reveal>
+        </div>
       </div>
 
       <AnimatePresence>
@@ -306,26 +235,31 @@ function FacilitiesBlock() {
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.96, y: 12, opacity: 0 }}
               transition={{ duration: 0.5, ease: EASE }}
-              className="relative w-full max-w-5xl overflow-hidden bg-white shadow-[0_30px_80px_rgba(0,0,0,0.45)]"
+              className="relative w-full max-w-5xl overflow-hidden clip-diag-10 sm:clip-diag-16 bg-white shadow-[0_30px_80px_rgba(0,0,0,0.45)]"
               onClick={(e) => e.stopPropagation()}
             >
               <button
                 type="button"
                 aria-label="Close"
                 onClick={() => setLightbox(null)}
-                className="absolute right-3 top-3 z-10 grid h-10 w-10 place-items-center bg-ink text-white text-lg font-bold touch-manipulation"
+                className="absolute right-3 top-3 z-10 grid h-10 w-10 place-items-center clip-diag-4 bg-ink text-white text-lg font-bold touch-manipulation hover:bg-brand"
               >
                 ×
               </button>
               <img
                 src={GALLERY[lightbox].src}
                 alt={GALLERY[lightbox].caption}
-                className="max-h-[78vh] w-full object-contain bg-[#e8eef4]"
+                className="max-h-[78vh] w-full object-contain bg-panel"
                 draggable={false}
               />
-              <div className="border-t border-[#d7dde5] px-4 py-3.5 sm:px-6">
-                <div className="text-tech text-[13px] font-bold text-ink">{GALLERY[lightbox].tag}</div>
-                <div className="text-[12px] font-medium text-ink/60">{GALLERY[lightbox].caption}</div>
+              <div className="flex items-center justify-between gap-4 border-t border-line bg-white px-4 py-3.5 sm:px-6">
+                <div>
+                  <div className="text-tech text-[10px] font-bold tracking-[0.16em] text-brand">
+                    {String(lightbox + 1).padStart(2, '0')} · Facility
+                  </div>
+                  <div className="text-tech text-[13px] font-bold text-ink">{GALLERY[lightbox].tag}</div>
+                  <div className="text-[12px] font-medium text-muted">{GALLERY[lightbox].caption}</div>
+                </div>
               </div>
             </motion.div>
           </motion.div>

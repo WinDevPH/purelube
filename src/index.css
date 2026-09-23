@@ -313,6 +313,59 @@
   animation: scroll-wheel 1.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
 }
 
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  background: #d8d8d8;
+  font-family: inherit;
+}
+.purelube-map .leaflet-control-attribution,
+.purelube-map .leaflet-control-zoom,
+.purelube-map .leaflet-bottom {
+  display: none !important;
+}
+.purelube-map .leaflet-tile-pane {
+  filter: saturate(0.7) contrast(1.04);
+}
+.purelube-map-pin {
+  background: none !important;
+  border: none !important;
+}
+.purelube-pin {
+  position: relative;
+  display: block;
+  width: 36px;
+  height: 46px;
+}
+.purelube-pin svg {
+  position: relative;
+  z-index: 1;
+  display: block;
+  margin: 10px auto 0;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.28));
+}
+.purelube-pin-pulse {
+  position: absolute;
+  left: 50%;
+  top: 22px;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: rgba(238, 28, 46, 0.35);
+  transform: translate(-50%, -50%);
+  animation: pin-pulse 1.8s ease-out infinite;
+}
+@keyframes pin-pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0.6);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.4);
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

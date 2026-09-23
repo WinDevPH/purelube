@@ -4,6 +4,8 @@ import SectionHeader from './ui/SectionHeader'
 import Reveal from './ui/Reveal'
 import TechButton from './ui/TechButton'
 import Chevrons from './ui/Chevrons'
+import SelectField from './ui/SelectField'
+import OfficeMap from './OfficeMap'
 import { COMPANY } from '../data/company'
 import { PRODUCTS } from '../data/content'
 
@@ -23,11 +25,10 @@ type FieldProps = {
   type?: string
   required?: boolean
   placeholder?: string
-  as?: 'input' | 'textarea' | 'select'
-  options?: string[]
+  as?: 'input' | 'textarea'
 }
 
-function Field({ label, name, type = 'text', required, placeholder, as = 'input', options }: FieldProps) {
+function Field({ label, name, type = 'text', required, placeholder, as = 'input' }: FieldProps) {
   const base =
     'peer w-full min-w-0 clip-diag-6 sm:clip-diag-8 bg-panel px-3.5 py-3 sm:px-4 text-[13px] font-medium text-ink outline-none transition-all duration-500 placeholder:text-muted/60 placeholder:normal-case placeholder:tracking-normal placeholder:font-normal focus:bg-white focus:ring-2 focus:ring-brand/15'
   return (
@@ -38,45 +39,45 @@ function Field({ label, name, type = 'text', required, placeholder, as = 'input'
       <div className="relative mt-2">
         {as === 'textarea' ? (
           <textarea name={name} required={required} placeholder={placeholder} rows={5} className={`${base} resize-none`} />
-        ) : as === 'select' ? (
-          <select name={name} required={required} defaultValue="" className={`${base} appearance-none cursor-pointer pr-9`}>
-            <option value="" disabled>
-              Select an option
-            </option>
-            {options?.map((o) => (
-              <option key={o} value={o}>
-                {o}
-              </option>
-            ))}
-          </select>
         ) : (
           <input name={name} type={type} required={required} placeholder={placeholder} className={base} />
         )}
-        {/* animated red underline on focus */}
         <span className="pointer-events-none absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-0 bg-brand transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] peer-focus:scale-x-100" />
-        {as === 'select' && (
-          <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-brand text-[10px]">▼</span>
-        )}
       </div>
     </label>
   )
 }
 
+function readInquireDefaults() {
+  try {
+    return {
+      product: sessionStorage.getItem('purelube-inquire-product') || '',
+      type: sessionStorage.getItem('purelube-inquire-type') || '',
+    }
+  } catch {
+    return { product: '', type: '' }
+  }
+}
+
 export default function Contact() {
   const [sent, setSent] = useState(false)
+  const [inquire] = useState(readInquireDefaults)
+  const [inquiryType, setInquiryType] = useState(inquire.type)
+  const [product, setProduct] = useState(inquire.product)
   const office = COMPANY.office
   const phoneHref = `tel:${office.phone.replace(/\s/g, '')}`
   const address = `${office.line1}, ${office.line2}`
-  const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(address)}&z=14&output=embed`
-  const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`
+  const mapQuery = encodeURIComponent(`${office.company}, ${address}`)
+  const mapLink = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    if (!inquiryType) return
     const fd = new FormData(e.currentTarget)
     const name = String(fd.get('name') || '')
     const email = String(fd.get('email') || '')
     const phone = String(fd.get('phone') || '')
-    const type = String(fd.get('type') || 'Inquiry')
+    const type = String(fd.get('type') || inquiryType || 'Inquiry')
     const product = String(fd.get('product') || '')
     const message = String(fd.get('message') || '')
 
@@ -95,6 +96,8 @@ export default function Contact() {
 
     window.location.href = `mailto:${office.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
     setSent(true)
+    setInquiryType('')
+    setProduct('')
     e.currentTarget.reset()
   }
 
@@ -159,52 +162,29 @@ export default function Contact() {
             ))}
           </div>
 
-          {/* map */}
           <Reveal delay={0.2}>
-            <div className="relative clip-diag-10 sm:clip-diag-20 bg-panel hatch p-2">
-              <div className="relative clip-diag-8 sm:clip-diag-16 overflow-hidden aspect-[16/10] bg-panel-2">
-                {/* stylised fallback (shows until / if the live map loads) */}
-                <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.06)_1px,transparent_1px)] bg-[size:28px_28px]" />
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_48%,rgba(238,28,46,0.18),transparent_38%)]" />
-                <svg viewBox="0 0 400 250" className="absolute inset-0 h-full w-full" fill="none" aria-hidden="true">
-                  <path d="M-10 170 C80 150 120 200 200 180 S330 130 410 150" stroke="rgba(0,0,0,0.18)" strokeWidth="6" />
-                  <path d="M-10 90 C60 110 150 60 230 95 S340 120 410 80" stroke="rgba(0,0,0,0.12)" strokeWidth="4" />
-                  <path d="M120 -10 C130 80 90 160 140 260" stroke="rgba(0,0,0,0.1)" strokeWidth="3" />
-                  <path d="M290 -10 C270 90 320 150 280 260" stroke="rgba(0,0,0,0.1)" strokeWidth="3" />
-                </svg>
-                <motion.div
-                  className="absolute left-1/2 top-[46%] -translate-x-1/2 -translate-y-full"
-                  animate={{ y: [0, -6, 0] }}
-                  transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
-                >
-                  <svg viewBox="0 0 24 24" className="h-11 w-11 text-brand drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]" fill="currentColor">
-                    <path d="M12 22s7-6.2 7-12a7 7 0 10-14 0c0 5.8 7 12 7 12z" />
-                    <circle cx="12" cy="10" r="2.6" fill="#fff" />
-                  </svg>
-                </motion.div>
-                <span className="absolute left-1/2 top-[46%] h-2 w-8 -translate-x-1/2 rounded-full bg-black/25 blur-[3px]" />
-
-                <iframe
-                  title="PureLube Lubricant GmbH — Leuna, Germany"
-                  src={mapSrc}
-                  className="absolute inset-0 h-full w-full border-0 grayscale-[0.35] contrast-[1.05]"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  allowFullScreen
-                />
-              </div>
-              <div className="mt-2 flex items-center justify-between gap-2 px-1 sm:mt-0">
-                <div className="clip-diag-6 bg-ink px-2.5 py-1.5 text-tech text-[12px] font-bold text-white sm:absolute sm:left-5 sm:top-5 sm:px-3 sm:text-[13px]">
+            <div className="relative overflow-hidden clip-diag-10 sm:clip-diag-16 border border-line bg-ink shadow-[0_8px_24px_rgba(0,0,0,0.04)]">
+              <div className="relative aspect-[16/10] bg-[#d8d8d8]">
+                <OfficeMap />
+                <div className="pointer-events-none absolute inset-0 z-[400] bg-gradient-to-t from-ink/55 via-transparent to-transparent" />
+                <div className="pointer-events-none absolute left-3 top-3 z-[800] clip-diag-6 bg-ink px-2.5 py-1.5 text-tech text-[11px] font-bold tracking-[0.14em] text-white sm:left-4 sm:top-4 sm:px-3 sm:text-[12px]">
                   Leuna · Germany
                 </div>
-                <a
-                  href={mapLink}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="clip-diag-6 bg-brand px-2.5 py-1.5 text-tech text-[12px] font-bold text-white hover:bg-brand-dark sm:absolute sm:bottom-5 sm:right-5 sm:px-3 sm:text-[13px]"
-                >
-                  Open in Google Maps ↗
-                </a>
+                <div className="absolute inset-x-3 bottom-3 z-[800] flex items-end justify-between gap-3 sm:inset-x-4 sm:bottom-4">
+                  <div className="min-w-0 clip-diag-6 bg-white/95 px-3 py-2.5 shadow-[0_8px_20px_rgba(0,0,0,0.12)] sm:px-3.5">
+                    <div className="text-tech text-[10px] font-bold tracking-[0.16em] text-brand">Headquarters</div>
+                    <div className="mt-0.5 truncate text-[12px] font-semibold text-ink sm:text-[13px]">{office.line1}</div>
+                    <div className="text-[11px] text-muted">{office.line2}</div>
+                  </div>
+                  <a
+                    href={mapLink}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="shrink-0 clip-diag-6 bg-brand px-3 py-2.5 text-tech text-[11px] font-bold whitespace-nowrap text-white transition-colors hover:bg-brand-dark sm:px-3.5 sm:text-[12px]"
+                  >
+                    Google Maps ↗
+                  </a>
+                </div>
               </div>
             </div>
           </Reveal>
@@ -232,9 +212,22 @@ export default function Contact() {
                   <Field label="Full Name" name="name" required placeholder="Your name" />
                   <Field label="Email" name="email" type="email" required placeholder="you@company.com" />
                   <Field label="Phone" name="phone" type="tel" placeholder="+49 …" />
-                  <Field label="Inquiry Type" name="type" as="select" required options={INQUIRY_TYPES} />
+                  <SelectField
+                    label="Inquiry Type"
+                    name="type"
+                    required
+                    options={INQUIRY_TYPES}
+                    value={inquiryType}
+                    onChange={setInquiryType}
+                  />
                   <div className="sm:col-span-2">
-                    <Field label="Product of Interest" name="product" as="select" options={PRODUCTS.map((p) => p.name)} />
+                    <SelectField
+                      label="Product of Interest"
+                      name="product"
+                      options={PRODUCTS.map((p) => p.name)}
+                      value={product}
+                      onChange={setProduct}
+                    />
                   </div>
                   <div className="sm:col-span-2">
                     <Field label="Message" name="message" as="textarea" required placeholder="Tell us about your requirements…" />

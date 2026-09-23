@@ -35,10 +35,9 @@ export default function App() {
   }, [])
 
   useLayoutEffect(() => {
-    const wasProduct = prevHash.current.startsWith('#product/')
     const isProduct = hash.startsWith('#product/')
     prevHash.current = hash
-    if (isProduct || wasProduct) scrollToTop()
+    if (isProduct) scrollToTop()
   }, [hash])
 
   useEffect(() => {
@@ -50,13 +49,45 @@ export default function App() {
       return
     }
     document.title = 'PureLube Lubricant GmbH'
-    if (!next.section) return
-    const section = next.section
-    const t = window.setTimeout(() => {
-      if (section === 'home') scrollToTop()
-      else scrollToSection(`#${section}`, true)
-    }, 40)
-    return () => window.clearTimeout(t)
+    const section = (next.section || '').split(/[/?]/)[0]
+    if (!section) return
+
+    let cancelled = false
+    let tries = 0
+    let lastY = -1
+    const settle = () => {
+      if (cancelled) return
+      if (section === 'home') {
+        scrollToTop()
+        return
+      }
+      const el = document.getElementById(section)
+      if (!el) {
+        if (tries < 50) {
+          tries += 1
+          requestAnimationFrame(settle)
+        }
+        return
+      }
+      const y = el.getBoundingClientRect().top + window.scrollY
+      if (Math.abs(y - lastY) > 12 && tries < 50) {
+        lastY = y
+        tries += 1
+        requestAnimationFrame(settle)
+        return
+      }
+      scrollToSection(el, true)
+    }
+    const t = window.setTimeout(settle, 80)
+    const retry = window.setTimeout(() => {
+      const el = document.getElementById(section)
+      if (!cancelled && el && section !== 'home') scrollToSection(el, true)
+    }, 450)
+    return () => {
+      cancelled = true
+      window.clearTimeout(t)
+      window.clearTimeout(retry)
+    }
   }, [hash])
 
   return (
