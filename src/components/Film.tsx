@@ -45,13 +45,13 @@ export default function Film() {
           </div>
 
           <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8">
-            <div className="text-tech text-[10px] sm:text-[11px] font-semibold tracking-[0.14em] text-brand">
+            <div className="text-tech text-[13px] sm:text-[14px] font-semibold tracking-[0.14em] text-brand">
               Featured Film
             </div>
             <div className="mt-1 text-[22px] sm:text-[32px] font-bold uppercase leading-none text-white">
               {hero.title}
             </div>
-            <div className="mt-1.5 text-tech-sm text-[9.5px] text-white/65">{hero.subtitle}</div>
+            <div className="mt-1.5 text-[13px] text-white/65">{hero.subtitle}</div>
           </div>
         </button>
       </Reveal>
@@ -77,7 +77,7 @@ export default function Film() {
             </div>
             <div className="min-w-0">
               <div className="text-tech text-[12px] font-bold text-ink">{film.title}</div>
-              <div className="mt-0.5 text-tech-sm text-[9px] text-muted">{film.subtitle}</div>
+              <div className="mt-0.5 text-[12px] text-muted">{film.subtitle}</div>
             </div>
           </button>
         ))}
@@ -121,7 +121,7 @@ export default function Film() {
                 />
                 <div className="border-t border-white/10 px-4 py-3 sm:px-5">
                   <div className="text-tech text-[12px] font-bold text-white">{active.title}</div>
-                  <div className="text-tech-sm text-[9px] text-white/55">{active.subtitle}</div>
+                  <div className="text-[12px] text-white/55">{active.subtitle}</div>
                 </div>
               </div>
             </motion.div>

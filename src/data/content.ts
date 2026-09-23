@@ -2,7 +2,7 @@ export const NAV_LINKS = [
   { label: 'Home', href: '#home' },
   { label: 'Profile', href: '#profile' },
   { label: 'Products', href: '#products' },
-  { label: 'Gallery', href: '#riders' },
+  { label: 'Gallery', href: '#gallery' },
   { label: 'Contact Us', href: '#contact' },
 ]
 
@@ -37,11 +37,11 @@ export const PRODUCTS: Product[] = [
     tagline: 'For all kinds of modern bikes',
     category: 'Motorcycle',
     image: '/img/story-can.png',
-    imageAlt: 'PureLube Platinum Fully Synthetic 10W-40 SN',
-    heroImage: '/img/hero-can.png',
+    imageAlt: 'Campaign key visual of a model on a sport motorcycle with PureLube 10W-40',
+    heroImage: '/img/pubmat-moto.png?v=4',
     techImage: '/img/tech-can.png',
     headline: ['Feel Its Power', 'On Every Ride'],
-    eyebrow: 'German Technology, Russian Formulation',
+    eyebrow: 'German Technology · Genuine Lubricant',
     ratingLabel: 'Rider Rating',
     callouts: [
       {
@@ -101,11 +101,11 @@ export const PRODUCTS: Product[] = [
     tagline: 'For gasoline & diesel engines',
     category: 'Automotive',
     image: '/img/story-bottle.png',
-    imageAlt: 'PureLube Platinum Fully Synthetic 5W-40 SP/CK-4 gold bottle',
-    heroImage: '/img/hero-bottle.png',
+    imageAlt: 'Campaign key visual of a model on a sports car with PureLube 5W-40',
+    heroImage: '/img/pubmat-car.png?v=4',
     techImage: '/img/tech-bottle.png',
     headline: ['Ultimate Power', 'For Every Drive'],
-    eyebrow: 'German Technology, Russian Formulation',
+    eyebrow: 'German Technology · Genuine Lubricant',
     ratingLabel: 'Driver Rating',
     callouts: [
       {
@@ -199,6 +199,22 @@ export const TESTIMONIALS = [
   },
 ]
 
+export const GALLERY = [
+  {
+    src: '/img/building-hq.jpg',
+    tag: 'Headquarters',
+    caption: 'PureLube corporate facility · Modern HQ campus',
+    featured: true,
+  },
+  {
+    src: '/img/building-warehouse.jpg',
+    tag: 'Production Facility',
+    caption: 'Industrial warehouse · Precision blending & logistics',
+    featured: false,
+  },
+]
+
+/** @deprecated Ride stills; Gallery riders carousel uses RIDES. */
 export const RIDES = [
   {
     src: '/img/ride-scooter.png',

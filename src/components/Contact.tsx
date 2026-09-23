@@ -32,7 +32,7 @@ function Field({ label, name, type = 'text', required, placeholder, as = 'input'
     'peer w-full min-w-0 clip-diag-6 sm:clip-diag-8 bg-panel px-3.5 py-3 sm:px-4 text-[13px] font-medium text-ink outline-none transition-all duration-500 placeholder:text-muted/60 placeholder:normal-case placeholder:tracking-normal placeholder:font-normal focus:bg-white focus:ring-2 focus:ring-brand/15'
   return (
     <label className="group relative block">
-      <span className="text-tech text-[10px] font-bold text-ink">
+      <span className="text-tech text-[13px] font-bold text-ink">
         {label} {required && <span className="text-brand">*</span>}
       </span>
       <div className="relative mt-2">
@@ -111,7 +111,7 @@ export default function Contact() {
       <SectionHeader title={['Get In', 'Touch']} label="Contact Us" />
 
       <Reveal className="mt-6 max-w-[620px]">
-        <p className="text-tech-sm text-[10.5px] leading-relaxed text-muted">
+        <p className="text-[14px] leading-relaxed text-muted">
           Distributor partnerships, bulk orders or technical questions about PureLube Platinum — our international
           office in Germany is ready to help. “Together We Conquer.”
         </p>
@@ -140,7 +140,7 @@ export default function Contact() {
                       <path d={c.icon} />
                     </svg>
                   </div>
-                  <div className="mt-4 text-tech text-[10px] font-bold text-brand">{c.label}</div>
+                  <div className="mt-4 text-tech text-[13px] font-bold text-brand">{c.label}</div>
                   <div className="mt-1.5 grid gap-0.5">
                     {c.lines.map((l, j) =>
                       c.href && j === 0 ? (
@@ -148,7 +148,7 @@ export default function Contact() {
                           {l}
                         </a>
                       ) : (
-                        <span key={l} className={`text-tech-sm text-[9.5px] ${j === 0 ? 'font-semibold text-ink' : 'text-muted'}`}>
+                        <span key={l} className={`text-[13px] ${j === 0 ? 'font-semibold text-ink' : 'text-muted'}`}>
                           {l}
                         </span>
                       ),
@@ -194,14 +194,14 @@ export default function Contact() {
                 />
               </div>
               <div className="mt-2 flex items-center justify-between gap-2 px-1 sm:mt-0">
-                <div className="clip-diag-6 bg-ink px-2.5 py-1.5 text-tech text-[9px] font-bold text-white sm:absolute sm:left-5 sm:top-5 sm:px-3 sm:text-[9.5px]">
+                <div className="clip-diag-6 bg-ink px-2.5 py-1.5 text-tech text-[12px] font-bold text-white sm:absolute sm:left-5 sm:top-5 sm:px-3 sm:text-[13px]">
                   Leuna · Germany
                 </div>
                 <a
                   href={mapLink}
                   target="_blank"
                   rel="noreferrer"
-                  className="clip-diag-6 bg-brand px-2.5 py-1.5 text-tech text-[9px] font-bold text-white hover:bg-brand-dark sm:absolute sm:bottom-5 sm:right-5 sm:px-3 sm:text-[9.5px]"
+                  className="clip-diag-6 bg-brand px-2.5 py-1.5 text-tech text-[12px] font-bold text-white hover:bg-brand-dark sm:absolute sm:bottom-5 sm:right-5 sm:px-3 sm:text-[13px]"
                 >
                   Open in Google Maps ↗
                 </a>
@@ -242,7 +242,7 @@ export default function Contact() {
                 </div>
 
                 <div className="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                  <p className="text-tech-sm text-[8.5px] text-muted max-w-[300px]">
+                  <p className="text-[12px] text-muted max-w-[300px]">
                     By sending, you agree to be contacted by PureLube Lubricant GmbH regarding your inquiry.
                   </p>
                   <TechButton type="submit" variant="red" className="w-full sm:w-auto px-10">
@@ -261,7 +261,7 @@ export default function Contact() {
                       <span className="mt-[2px] grid h-5 w-5 shrink-0 place-items-center clip-diag-4 bg-brand text-white text-[11px] font-bold">
                         ✓
                       </span>
-                      <div className="text-tech-sm text-[9.5px] text-ink">
+                      <div className="text-[13px] text-ink">
                         Your email client has opened with the message ready to send to{' '}
                         <a href={`mailto:${office.email}`} className="font-semibold text-brand">
                           {office.email}

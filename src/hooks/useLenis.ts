@@ -8,7 +8,15 @@ function clearOverflowLock() {
   document.body.style.overflow = ''
 }
 
-export function scrollToSection(target: string | HTMLElement) {
+export function scrollToTop() {
+  if (lenisInstance) {
+    lenisInstance.scrollTo(0, { immediate: true })
+    return
+  }
+  window.scrollTo(0, 0)
+}
+
+export function scrollToSection(target: string | HTMLElement, immediate = false) {
   // Always unlock first — mobile menu stops Lenis while open
   if (lenisInstance) {
     lenisInstance.start()
@@ -16,7 +24,8 @@ export function scrollToSection(target: string | HTMLElement) {
     requestAnimationFrame(() => {
       lenisInstance?.scrollTo(target, {
         offset: -72,
-        duration: 1.8,
+        immediate,
+        duration: immediate ? 0 : 1.8,
         easing: (t) => 1 - Math.pow(1 - t, 4),
       })
     })
@@ -24,7 +33,17 @@ export function scrollToSection(target: string | HTMLElement) {
   }
   clearOverflowLock()
   const el = typeof target === 'string' ? document.querySelector(target) : target
-  el?.scrollIntoView({ behavior: 'smooth' })
+  el?.scrollIntoView({ behavior: immediate ? 'auto' : 'smooth' })
+}
+
+/** Leave a product page by changing the URL, otherwise scroll on the homepage. */
+export function goToSection(href: string) {
+  const hash = href.startsWith('#') ? href : `#${href}`
+  if (location.hash.startsWith('#product/')) {
+    location.hash = hash
+    return
+  }
+  scrollToSection(hash)
 }
 
 export function setPageScrollLocked(locked: boolean) {

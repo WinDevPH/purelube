@@ -147,7 +147,7 @@ function GlobalPanel() {
         >
           {hot === "Europe" ? "HQ · Germany" : hot}
         </motion.div>
-        <div className="absolute bottom-3 left-3 hidden sm:block text-tech-sm text-[8px] text-white/55">
+        <div className="absolute bottom-3 left-3 hidden sm:block text-[12px] text-white/55">
           Tap a node · Frankfurt → four continents
         </div>
       </MediaFrame>
@@ -161,7 +161,7 @@ function GlobalPanel() {
           <br />
           One German Standard.
         </h3>
-        <p className="mt-4 text-tech-sm text-[10.5px] sm:text-[11px] leading-relaxed text-muted">
+        <p className="mt-4 text-[14px] sm:text-[15px] leading-relaxed text-muted">
           {COMPANY.about}
         </p>
       </div>
@@ -194,7 +194,7 @@ function GlobalPanel() {
                 </span>
                 <span className="min-w-0">
                   <span className="block text-tech text-[12px] font-bold">{c.name}</span>
-                  <span className={`block text-tech-sm text-[8.5px] leading-snug ${on ? 'text-white/65' : 'text-muted'}`}>
+                  <span className={`block text-[12px] leading-snug ${on ? 'text-white/65' : 'text-muted'}`}>
                     {c.note}
                   </span>
                 </span>
@@ -248,7 +248,7 @@ function StoryPanel({
           {n}
         </span>
         <div className="absolute bottom-3 left-3 flex items-center gap-2.5">
-          <span className="grid h-8 w-8 place-items-center clip-diag-6 bg-brand text-tech text-[10px] font-bold text-white">
+          <span className="grid h-8 w-8 place-items-center clip-diag-6 bg-brand text-tech text-[13px] font-bold text-white">
             {n}
           </span>
           <span className="font-display text-[20px] sm:text-[22px] font-bold uppercase leading-none text-white">
@@ -269,8 +269,8 @@ function StoryPanel({
         <span className="mt-4 block h-px w-full bg-line relative">
           <span className="absolute left-0 -top-[1px] h-[3px] w-12 bg-brand" />
         </span>
-        <p className="mt-4 text-tech-sm text-[10.5px] sm:text-[11px] leading-relaxed text-muted">{body}</p>
-        {extra && <p className="mt-3 hidden sm:block text-tech-sm text-[10px] leading-relaxed text-ink/60">{extra}</p>}
+        <p className="mt-4 text-[14px] sm:text-[15px] leading-relaxed text-muted">{body}</p>
+        {extra && <p className="mt-3 hidden sm:block text-[13px] sm:text-[14px] leading-relaxed text-ink/60">{extra}</p>}
       </div>
 
       <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-3 lg:col-span-2 lg:grid-cols-4 lg:gap-4">
@@ -284,7 +284,7 @@ function StoryPanel({
             className="flex min-h-[48px] items-center gap-2.5 clip-diag-6 bg-white border border-line/60 px-3 py-3 hover:border-brand/40 sm:min-h-[56px] sm:px-4"
           >
             <span className="block h-[7px] w-[7px] shrink-0 bg-brand" style={{ transform: 'skewX(-20deg)' }} />
-            <span className="text-tech text-[10.5px] font-semibold text-ink leading-tight">{p}</span>
+            <span className="text-tech text-[13px] font-semibold sm:text-[14px] text-ink leading-tight">{p}</span>
           </motion.li>
         ))}
       </ul>
@@ -350,7 +350,7 @@ function ValuesPanel() {
         <h3 className="mt-2 font-display text-[22px] sm:text-[32px] md:text-[36px] font-bold uppercase leading-[0.98] text-ink">
           Our Core Values
         </h3>
-        <p className="mt-4 text-tech-sm text-[10.5px] sm:text-[11px] leading-relaxed text-muted">
+        <p className="mt-4 text-[14px] sm:text-[15px] leading-relaxed text-muted">
           {COMPANY.valuesIntro}
         </p>
         <AnimatePresence mode="wait">
@@ -362,7 +362,7 @@ function ValuesPanel() {
             className="mt-5 clip-diag-8 sm:clip-diag-12 bg-ink hatch-dark p-4 sm:p-6 text-white"
           >
             <div className="flex items-center justify-between gap-3">
-              <div className="text-tech text-[10px] font-bold text-brand">
+              <div className="text-tech text-[13px] font-bold text-brand">
                 Value 0{active + 1} / 04
               </div>
               <Chevrons count={3} color="bg-white/50" dir="left" />
@@ -370,7 +370,7 @@ function ValuesPanel() {
             <h4 className="mt-1.5 font-display text-[18px] font-bold uppercase leading-tight">
               {v.title}
             </h4>
-            <p className="mt-1.5 text-tech-sm text-[9.5px] leading-relaxed text-white/70">
+            <p className="mt-1.5 text-[13px] leading-relaxed text-white/70">
               {v.desc}
             </p>
           </motion.div>
@@ -449,7 +449,7 @@ export default function Profile() {
                   className="block h-[3px] w-8 sm:w-10 bg-brand"
                   style={{ transform: "skewX(-28deg)" }}
                 />
-                <span className="text-tech text-[10px] sm:text-[12px] font-semibold text-brand">
+                <span className="text-tech text-[13px] sm:text-[15px] font-semibold text-brand">
                   Our Journey · Since Frankfurt
                 </span>
               </div>
@@ -459,7 +459,7 @@ export default function Profile() {
                 <span className="text-white/60">Trusted on</span>{" "}
                 <span className="text-brand">Four Continents.</span>
               </h3>
-              <p className="mt-4 sm:mt-5 max-w-[560px] text-tech-sm text-[10.5px] sm:text-[12px] leading-relaxed text-white/75">
+              <p className="mt-4 sm:mt-5 max-w-[560px] text-[14px] sm:text-[15px] leading-relaxed text-white/75">
                 {COMPANY.journey}
               </p>
               <div className="mt-4 grid grid-cols-2 gap-2 sm:mt-5 sm:flex sm:flex-wrap sm:gap-2.5">
@@ -473,7 +473,7 @@ export default function Profile() {
                     viewport={{ once: true }}
                     transition={{ delay: 0.2 + i * 0.06 }}
                     whileHover={{ y: -2 }}
-                    className="inline-flex min-h-[40px] items-center justify-center gap-2 clip-diag-6 border border-white/15 bg-white/[0.06] px-3 py-2 text-tech text-[10.5px] font-semibold text-white/85 backdrop-blur-sm hover:border-brand/60 hover:bg-brand/20 sm:justify-start sm:px-3.5"
+                    className="inline-flex min-h-[40px] items-center justify-center gap-2 clip-diag-6 border border-white/15 bg-white/[0.06] px-3 py-2 text-tech text-[13px] font-semibold sm:text-[14px] text-white/85 backdrop-blur-sm hover:border-brand/60 hover:bg-brand/20 sm:justify-start sm:px-3.5"
                   >
                     <span className="h-1.5 w-1.5 rounded-full bg-brand shadow-[0_0_8px_rgba(238,28,46,0.9)]" />
                     {c}
@@ -497,10 +497,10 @@ export default function Profile() {
                   <div className="font-display text-[30px] sm:text-[44px] font-bold leading-none tabular-nums">
                     <Counter value={s.value} suffix={s.suffix} />
                   </div>
-                  <div className="mt-1.5 text-tech text-[11px] sm:text-[12px] font-bold text-white">
+                  <div className="mt-1.5 text-tech text-[14px] sm:text-[15px] font-bold text-white">
                     {s.label}
                   </div>
-                  <div className="mt-1 hidden md:block text-tech-sm text-[9px] text-white/50">
+                  <div className="mt-1 hidden md:block text-[12px] text-white/50">
                     {s.sub}
                   </div>
                 </motion.div>
@@ -533,7 +533,7 @@ export default function Profile() {
                   role="tab"
                   aria-selected={on}
                   onClick={() => select(t.id)}
-                  className={`relative flex min-h-[56px] flex-col items-center justify-center gap-0.5 px-1 py-2 text-tech text-[10px] font-semibold transition-colors touch-manipulation sm:min-h-[48px] sm:flex-row sm:gap-2 sm:px-4 sm:py-2.5 sm:text-[11px] ${
+                  className={`relative flex min-h-[56px] flex-col items-center justify-center gap-0.5 px-1 py-2 text-tech text-[13px] font-semibold transition-colors touch-manipulation sm:min-h-[48px] sm:flex-row sm:gap-2 sm:px-4 sm:py-2.5 sm:text-[14px] ${
                     on ? "text-ink bg-white/70" : "text-muted hover:text-ink"
                   }`}
                 >
@@ -628,7 +628,7 @@ export default function Profile() {
               <button
                 type="button"
                 onClick={() => step(-1)}
-                className="inline-flex items-center gap-2 min-h-[40px] text-tech text-[10px] font-semibold text-muted hover:text-brand"
+                className="inline-flex items-center gap-2 min-h-[40px] text-tech text-[13px] font-semibold text-muted hover:text-brand"
               >
                 <Chevrons count={2} color="bg-current" dir="right" />
                 Prev
@@ -647,7 +647,7 @@ export default function Profile() {
               <button
                 type="button"
                 onClick={() => step(1)}
-                className="inline-flex items-center gap-2 min-h-[40px] text-tech text-[10px] font-semibold text-muted hover:text-brand"
+                className="inline-flex items-center gap-2 min-h-[40px] text-tech text-[13px] font-semibold text-muted hover:text-brand"
               >
                 Next
                 <Chevrons count={2} color="bg-current" dir="left" />
@@ -670,7 +670,7 @@ export default function Profile() {
             </div>
             <div className="text-center md:text-left">
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-2">
-                <span className="text-tech text-[10px] font-bold text-brand">
+                <span className="text-tech text-[13px] font-bold text-brand">
                   International Office
                 </span>
                 <span className="clip-diag-4 bg-ink px-2 py-0.5 text-tech text-[8px] font-bold text-white">
@@ -680,7 +680,7 @@ export default function Profile() {
               <div className="mt-0.5 font-display text-[15px] sm:text-[18px] font-bold uppercase text-ink">
                 {office.company}
               </div>
-              <p className="text-tech-sm text-[9px] text-muted">
+              <p className="text-[13px] text-muted">
                 {office.line1} · {office.line2}
               </p>
             </div>

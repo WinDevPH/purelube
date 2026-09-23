@@ -3,12 +3,19 @@ import { AnimatePresence, motion } from 'framer-motion'
 import Logo from './ui/Logo'
 import TechButton from './ui/TechButton'
 import { NAV_LINKS } from '../data/content'
-import { scrollToSection, setPageScrollLocked } from '../hooks/useLenis'
+import { goToSection, setPageScrollLocked } from '../hooks/useLenis'
 import { EASE } from './ui/Reveal'
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState('#home')
+  const [onHome, setOnHome] = useState(() => !location.hash.startsWith('#product/'))
+
+  useEffect(() => {
+    const sync = () => setOnHome(!location.hash.startsWith('#product/'))
+    window.addEventListener('hashchange', sync)
+    return () => window.removeEventListener('hashchange', sync)
+  }, [])
 
   useEffect(() => {
     const ids = NAV_LINKS.map((l) => l.href.slice(1))
@@ -25,7 +32,7 @@ export default function Navbar() {
       if (el) obs.observe(el)
     })
     return () => obs.disconnect()
-  }, [])
+  }, [onHome])
 
   useEffect(() => {
     setPageScrollLocked(open)
@@ -38,7 +45,7 @@ export default function Navbar() {
     setOpen(false)
     setActive(href)
     // Wait for menu exit + Lenis restart, then scroll
-    window.setTimeout(() => scrollToSection(href), 50)
+    window.setTimeout(() => goToSection(href), 50)
   }
 
   return (
@@ -57,7 +64,7 @@ export default function Navbar() {
               </button>
             </div>
 
-            <ul className="hidden lg:flex items-center gap-1">
+            <ul className="hidden lg:flex items-center gap-1.5">
               {NAV_LINKS.map((l, i) => (
                 <motion.li
                   key={l.href}
@@ -68,13 +75,13 @@ export default function Navbar() {
                   <button
                     type="button"
                     onClick={() => go(l.href)}
-                    className={`group relative rounded-sm px-3.5 py-2 text-tech text-[11.5px] font-semibold transition-colors duration-500 ${
+                    className={`group relative rounded-sm px-4 py-2.5 text-tech text-[15px] font-semibold tracking-[0.08em] transition-colors duration-500 xl:text-[16px] ${
                       active === l.href ? 'text-brand' : 'text-ink hover:text-brand'
                     }`}
                   >
                     {l.label}
                     <span
-                      className={`absolute inset-x-3.5 -bottom-px h-[2px] origin-left bg-brand transition-transform duration-500 ${
+                      className={`absolute inset-x-4 -bottom-px h-[2px] origin-left bg-brand transition-transform duration-500 ${
                         active === l.href ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
                       }`}
                     />
@@ -126,7 +133,7 @@ export default function Navbar() {
             transition={{ duration: 0.45, ease: EASE }}
             className="fixed inset-x-0 bottom-0 top-[68px] z-40 lg:hidden overflow-y-auto bg-white/98 backdrop-blur-md"
           >
-            <ul className="wrap grid gap-1.5 border-t border-line pt-4 pb-8">
+            <ul className="wrap grid gap-2 border-t border-line pt-4 pb-8">
               {NAV_LINKS.map((l, i) => (
                 <motion.li
                   key={l.href}
@@ -137,7 +144,7 @@ export default function Navbar() {
                   <button
                     type="button"
                     onClick={() => go(l.href)}
-                    className={`flex min-h-[48px] w-full items-center clip-diag-6 px-4 py-3 text-tech text-[13px] font-semibold touch-manipulation transition-colors duration-500 ${
+                    className={`flex min-h-[52px] w-full items-center clip-diag-6 px-4 py-3.5 text-tech text-[16px] font-semibold tracking-[0.08em] touch-manipulation transition-colors duration-500 ${
                       active === l.href ? 'bg-ink text-white' : 'bg-panel hover:bg-ink hover:text-white'
                     }`}
                   >

@@ -1,6 +1,6 @@
 import type { MouseEvent, ReactNode } from 'react'
 import Chevrons from './Chevrons'
-import { scrollToSection } from '../../hooks/useLenis'
+import { goToSection, scrollToTop } from '../../hooks/useLenis'
 
 type Props = {
   children: ReactNode
@@ -29,7 +29,7 @@ export default function TechButton({
   className = '',
   onClick,
 }: Props) {
-  const cls = `group relative inline-flex min-h-[44px] items-center justify-center clip-diag-8 sm:clip-diag-9 px-6 sm:px-9 py-3 text-tech text-[12px] sm:text-[13px] font-semibold touch-manipulation transition-transform duration-500 hover:scale-[1.03] active:scale-[0.98] ${styles[variant]} ${className}`
+  const cls = `group relative inline-flex min-h-[48px] items-center justify-center clip-diag-8 sm:clip-diag-9 px-6 sm:px-9 py-3 text-tech text-[15px] font-semibold touch-manipulation transition-transform duration-500 hover:scale-[1.03] active:scale-[0.98] ${styles[variant]} ${className}`
   const tick = variant === 'white' ? 'bg-ink' : 'bg-white'
   const inner = (
     <>
@@ -43,8 +43,14 @@ export default function TechButton({
   const handleClick = (e: MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
     onClick?.(e)
     if (e.defaultPrevented || !href || !href.startsWith('#')) return
+    if (href.startsWith('#product/')) {
+      e.preventDefault()
+      if (location.hash === href) scrollToTop()
+      else location.hash = href
+      return
+    }
     e.preventDefault()
-    scrollToSection(href)
+    goToSection(href)
   }
 
   if (href === undefined) {
